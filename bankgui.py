@@ -1,8 +1,9 @@
 # GUI for Banking App
 
 import sys
-import bankcontent as bc
+import userDetailsDict as udd
 import UserDetailPage
+import RegisterNewUserPage
 from PyQt5.QtWidgets import QApplication
 from PyQt5.QtWidgets import QMainWindow
 from PyQt5.QtWidgets import QFormLayout
@@ -39,9 +40,11 @@ class BankAppGUI(QMainWindow):
         self.generalLayout.addLayout(self.display)
         self.btns = QHBoxLayout()
         self.login_btn = QPushButton('Login')
-        self.clear_btn = QPushButton('Cancel')
+        self.clear_btn = QPushButton('Clear')
+        self.register_btn = QPushButton('Register')
         self.btns.addWidget(self.login_btn)
         self.btns.addWidget(self.clear_btn)
+        self.btns.addWidget(self.register_btn)
         self.generalLayout.addLayout(self.btns)
     
     def clearFormDisplay(self):
@@ -60,10 +63,12 @@ class BankAppCtrl:
         self._view.login_btn.clicked.connect(partial(self.checkUserDetails))
         # For Cancel
         self._view.clear_btn.clicked.connect(partial(self._view.clearFormDisplay))
+        # For Register
+        self._view.register_btn.clicked.connect(self.registerUser)
 
     def checkUserDetails(self):
         username = self._view.username.text()
-        if username in bc.dict_userDetails:
+        if username in udd.dict_userDetails:
             self.loginAccepted(username)
 
     def loginAccepted(self, username):
@@ -71,6 +76,10 @@ class BankAppCtrl:
         self._view = UserDetailPage.UserDetailPage(username)        
         self._view.show()
 
+    def registerUser(self):
+        self._view.close()
+        self._view = RegisterNewUserPage.RegisterNewUserPage()
+        self._view.show()
 
 #Client Code
 def main():
@@ -82,6 +91,7 @@ def main():
     view.show()
     # Create instances of the model and controller
     BankAppCtrl(view = view)
+    RegisterNewUserPage.RegNewUserCtrl(view = view)
     # Execute the bank app's main loop
     sys.exit(bankapp.exec_())
 
