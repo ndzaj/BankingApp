@@ -12,15 +12,12 @@ from PyQt5.QtWidgets import QWidget
 from PyQt5.QtWidgets import QLabel
 from functools import partial
 
-class RegisterNewUserPage(QMainWindow):
+class RegisterNewUserPage(QWidget):
     def __init__(self):
         super().__init__()
-        self.setWindowTitle("Register")
-        # self.setFixedSize(280,150)
         self.generalLayout = QVBoxLayout()
-        self._centralWidget = QWidget(self)
-        self.setCentralWidget(self._centralWidget)
-        self._centralWidget.setLayout(self.generalLayout)
+        # self._registerUserWidget = QWidget()
+        # self._registerUserWidget.setLayout(self.generalLayout)
         self._newUserForm()
 
     def _newUserForm(self):
@@ -52,9 +49,12 @@ class RegisterNewUserPage(QMainWindow):
         self.password.setText('')
     
 class RegNewUserCtrl:
-    def __init__(self, view):
-        self._view = view
-        self._connectButtons() 
+    def __init__(self, newUserView):
+        self._view = newUserView
+        self._connectButtons()
+
+    def setPrevView(self, view):
+        self.previousView = view
 
     def _connectButtons(self):
         # For Clear
@@ -65,9 +65,11 @@ class RegNewUserCtrl:
         self._view.register_btn.clicked.connect(self._addNewUserDetails)
 
     def _goBack(self):
-        self._view.close()
-        self._view = bankgui.BankAppGUI()       
-        self._view.show()
+        pass
+        # self._view.close()
+        # self._view = self.previousView      
+        # self._view.show()
+        self.previousView.setCentralWidget(self.previousView)
 
     def _addNewUserDetails(self):
         self._view.username.text() 

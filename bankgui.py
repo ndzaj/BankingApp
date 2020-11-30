@@ -54,14 +54,18 @@ class BankAppGUI(QMainWindow):
 
 class BankAppCtrl:
     """Controller class for Bank app"""
-    def __init__(self, view):
-        self._view = view
-        self._connectLoginSignal() 
+    def __init__(self, loginView, newUserController):
+        self._view = loginView
+        self._connectLoginSignal()
+        self._newUserController = newUserController
+        self._newUserController.setPrevView(loginView)
+        self._newUserView = newUserController._view
+        self._view.show()
 
     def _connectLoginSignal(self):
         # For OK
         self._view.login_btn.clicked.connect(partial(self.checkUserDetails))
-        # For Cancel
+        # For Clear
         self._view.clear_btn.clicked.connect(partial(self._view.clearFormDisplay))
         # For Register
         self._view.register_btn.clicked.connect(self.registerUser)
@@ -77,21 +81,25 @@ class BankAppCtrl:
         self._view.show()
 
     def registerUser(self):
-        self._view.close()
-        self._view = RegisterNewUserPage.RegisterNewUserPage()
-        self._view.show()
+        # self._view.close()
+        # self._view = self._newUserView
+        # self._view.show()
+        self._view.setCentralWidget(self._newUserView)
 
 #Client Code
 def main():
     """Main Function"""
     # Create instance of QApplication
     bankapp = QApplication(sys.argv)
+
+    # Create userDetails controller and view
+    newUserView = RegisterNewUserPage.RegisterNewUserPage()
+    newUserController = RegisterNewUserPage.RegNewUserCtrl(newUserView=newUserView)
+
     # Show the bank app's GUI
-    view = BankAppGUI()
-    view.show()
+    loginView = BankAppGUI()
     # Create instances of the model and controller
-    BankAppCtrl(view = view)
-    RegisterNewUserPage.RegNewUserCtrl(view = view)
+    BankAppCtrl(loginView=loginView, newUserController=newUserController)
     # Execute the bank app's main loop
     sys.exit(bankapp.exec_())
 
