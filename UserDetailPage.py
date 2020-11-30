@@ -11,7 +11,7 @@ from PyQt5.QtWidgets import QLabel
 from functools import partial
 
 
-class UserDetailPage(QMainWindow):
+class UserDetailPage(QWidget):
     def __init__(self, username):
         super().__init__()
         self.setWindowTitle("You've Successfully Logged In!")

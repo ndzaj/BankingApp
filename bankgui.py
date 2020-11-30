@@ -13,72 +13,39 @@ from PyQt5.QtWidgets import QHBoxLayout
 from PyQt5.QtWidgets import QLineEdit
 from PyQt5.QtWidgets import QPushButton
 from PyQt5.QtWidgets import QWidget
+from PyQt5.QtWidgets import QStackedWidget
+
 from functools import partial
 
-class BankAppGUI(QMainWindow):
+class BankAppGUI(QWidget):
     """BankApp's View"""
     def __init__(self):
         super().__init__()
         # Set properties of main window
         self.setWindowTitle('Banking App')
         self.setFixedSize(280,150)
-        # Set central widget and general layout
-        self.generalLayout = QVBoxLayout()
-        self._centralWidget = QWidget(self)
-        self.setCentralWidget(self._centralWidget)
-        self._centralWidget.setLayout(self.generalLayout)
-        # Create dispaly and buttons
-        self._createLoginDisplay()
-
-    def _createLoginDisplay(self):
-        """Create the display"""
-        self.display = QFormLayout()
-        self.username = QLineEdit()
-        self.password = QLineEdit()
-        self.display.addRow("Username:", self.username)
-        self.display.addRow("Password:", self.password)
-        self.generalLayout.addLayout(self.display)
-        self.btns = QHBoxLayout()
-        self.login_btn = QPushButton('Login')
-        self.clear_btn = QPushButton('Clear')
-        self.register_btn = QPushButton('Register')
-        self.btns.addWidget(self.login_btn)
-        self.btns.addWidget(self.clear_btn)
-        self.btns.addWidget(self.register_btn)
-        self.generalLayout.addLayout(self.btns)
-    
-    def clearFormDisplay(self):
-        """Clear the display"""
-        self.username.setText('')
-        self.password.setText('')
-
-class BankAppCtrl:
-    """Controller class for Bank app"""
-    def __init__(self, loginView, newUserController):
-        self._view = loginView
+        self.stack = QStackedWidget(self)
+        self.loginView = Login.LoginView()
+        self.stack.addWidget(self.loginView)
+        self.stack.setCurrentWidget(self.loginView)
         self._connectLoginSignal()
-        self._newUserController = newUserController
-        self._newUserController.setPrevView(loginView)
-        self._newUserView = newUserController._view
-        self._view.show()
-
+        self.show()
+    
     def _connectLoginSignal(self):
         # For OK
-        self._view.login_btn.clicked.connect(partial(self.checkUserDetails))
-        # For Clear
-        self._view.clear_btn.clicked.connect(partial(self._view.clearFormDisplay))
-        # For Register
-        self._view.register_btn.clicked.connect(self.registerUser)
+        self.loginView.login_btn.clicked.connect(partial(self.checkUserDetails))
+        # For Cancel
+        self.loginView.clear_btn.clicked.connect(partial(self.loginView.clearFormDisplay))
 
     def checkUserDetails(self):
-        username = self._view.username.text()
-        if username in udd.dict_userDetails:
+        username = self.loginView.username.text()
+        if username in bc.dict_userDetails:
             self.loginAccepted(username)
 
     def loginAccepted(self, username):
-        self._view.close()
-        self._view = UserDetailPage.UserDetailPage(username)        
-        self._view.show()
+        self.userDetailsView = UserDetailPage.UserDetailPage(username)
+        self.stack.addWidget(self.userDetailsView)
+        self.stack.setCurrentWidget(self.userDetailsView)
 
     def registerUser(self):
         # self._view.close()
@@ -92,14 +59,9 @@ def main():
     # Create instance of QApplication
     bankapp = QApplication(sys.argv)
 
-    # Create userDetails controller and view
-    newUserView = RegisterNewUserPage.RegisterNewUserPage()
-    newUserController = RegisterNewUserPage.RegNewUserCtrl(newUserView=newUserView)
-
     # Show the bank app's GUI
-    loginView = BankAppGUI()
-    # Create instances of the model and controller
-    BankAppCtrl(loginView=loginView, newUserController=newUserController)
+    view = BankAppGUI()
+
     # Execute the bank app's main loop
     sys.exit(bankapp.exec_())
 
