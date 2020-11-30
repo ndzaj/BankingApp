@@ -1,5 +1,3 @@
-import bankcontent as bc
-
 from PyQt5.QtWidgets import QApplication
 from PyQt5.QtWidgets import QMainWindow
 from PyQt5.QtWidgets import QFormLayout
@@ -32,8 +30,10 @@ class LoginView(QWidget):
         self.btns = QHBoxLayout()
         self.login_btn = QPushButton('Login')
         self.clear_btn = QPushButton('Cancel')
+        self.register_btn = QPushButton('Register')
         self.btns.addWidget(self.login_btn)
         self.btns.addWidget(self.clear_btn)
+        self.btns.addWidget(self.register_btn)
         self.generalLayout.addLayout(self.btns)
 
     def clearFormDisplay(self):

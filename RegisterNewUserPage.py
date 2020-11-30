@@ -16,9 +16,8 @@ class RegisterNewUserPage(QWidget):
     def __init__(self):
         super().__init__()
         self.generalLayout = QVBoxLayout()
-        # self._registerUserWidget = QWidget()
-        # self._registerUserWidget.setLayout(self.generalLayout)
         self._newUserForm()
+        self.setLayout(self.generalLayout)
 
     def _newUserForm(self):
         """Create the new user form"""

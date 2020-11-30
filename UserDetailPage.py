@@ -14,15 +14,8 @@ from functools import partial
 class UserDetailPage(QWidget):
     def __init__(self, username):
         super().__init__()
-        self.setWindowTitle("You've Successfully Logged In!")
-        # self.setFixedSize(280,150)
         self.generalLayout = QVBoxLayout()
-        self._centralWidget = QWidget(self)
-        self.setCentralWidget(self._centralWidget)
-        self._centralWidget.setLayout(self.generalLayout)
-
         self.heading = QLabel()
         self.heading.setText('Welcome ' + udd.dict_userDetails[username]['Name'] + '!')
         self.generalLayout.addWidget(self.heading)
-
-        # self.display = Q
+        self.setLayout(self.generalLayout)
