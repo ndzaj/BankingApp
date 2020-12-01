@@ -1,7 +1,6 @@
 import bankgui
 import userDetailsDict as udd
 
-from PyQt5.QtWidgets import QMainWindow
 from PyQt5.QtWidgets import QFormLayout
 from PyQt5.QtWidgets import QGridLayout
 from PyQt5.QtWidgets import QVBoxLayout
@@ -46,29 +45,3 @@ class RegisterNewUserPage(QWidget):
         self.name.setText('')
         self.username.setText('')
         self.password.setText('')
-    
-class RegNewUserCtrl:
-    def __init__(self, newUserView):
-        self._view = newUserView
-        self._connectButtons()
-
-    def setPrevView(self, view):
-        self.previousView = view
-
-    def _connectButtons(self):
-        # For Clear
-        self._view.clear_btn.clicked.connect(partial(self._view._clearForm))
-        # For Back
-        self._view.back_btn.clicked.connect(self._goBack)    
-        # For Register
-        self._view.register_btn.clicked.connect(self._addNewUserDetails)
-
-    def _goBack(self):
-        pass
-        # self._view.close()
-        # self._view = self.previousView      
-        # self._view.show()
-        self.previousView.setCentralWidget(self.previousView)
-
-    def _addNewUserDetails(self):
-        self._view.username.text() 

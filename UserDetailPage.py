@@ -1,6 +1,5 @@
 import userDetailsDict as udd
 
-from PyQt5.QtWidgets import QMainWindow
 from PyQt5.QtWidgets import QFormLayout
 from PyQt5.QtWidgets import QGridLayout
 from PyQt5.QtWidgets import QVBoxLayout
