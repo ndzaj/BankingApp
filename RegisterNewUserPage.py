@@ -33,12 +33,12 @@ class RegisterNewUserPage(QWidget):
         self.form.addRow("Password:", self.password)
         self.generalLayout.addLayout(self.form)
         self.btns = QHBoxLayout()
-        self.register_btn = QPushButton('Register')
         self.back_btn = QPushButton('Back')
         self.clear_btn = QPushButton('Clear')
-        self.btns.addWidget(self.register_btn)
-        self.btns.addWidget(self.clear_btn)
+        self.register_btn = QPushButton('Register')
         self.btns.addWidget(self.back_btn)
+        self.btns.addWidget(self.clear_btn)
+        self.btns.addWidget(self.register_btn)
         self.generalLayout.addLayout(self.btns)
         
     def _clearForm(self):

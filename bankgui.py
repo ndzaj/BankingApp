@@ -23,7 +23,7 @@ class BankAppGUI(QWidget):
         super().__init__()
         # Set properties of main window
         self.setWindowTitle('Banking App')
-        self.setFixedSize(400, 200)
+        self.setFixedSize(500, 400)
         self.stack = QStackedWidget(self)
         self.loginView = Login.LoginView()
         self.registerUserView = RegisterNewUserPage.RegisterNewUserPage()
@@ -71,8 +71,10 @@ class BankAppGUI(QWidget):
         # todo: I may have created a new instance of the LoginView page... 
     
     def _addNewUserToDictionary(self):
-        details = RegisterNewUserPage.RegisterNewUserPage._newUserForm
-        udd.dict_userDetails[details.username.text()] = {"Name": details.name.text(), "Password": details.password.text(), "Checking": 0, "Savings": 0}
+        # getDetails = RegisterNewUserPage.RegisterNewUserPage()._newUserForm
+        # udd.dict_userDetails[getDetails.username.text()] = {"Name": getDetails.name.text(), "Password": getDetails.password.text(), "Checking": 0, "Savings": 0}
+        newName = RegisterNewUserPage.RegisterNewUserPage().name.text()
+        print(newName)
 
 def main():
     """Main Function"""
